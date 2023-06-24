@@ -16,6 +16,92 @@
 <img src="https://github.com/seanhlewis/seanhlewis/assets/96705270/6431249f-69f6-4de1-94d7-3ff50e500b74" width="800" />
 </div>
 
+## API Examples
+
+### Simple
+
+Request:
+
+```javascript
+const res = await fetch("https://libretranslate.com/translate", {
+  method: "POST",
+  body: JSON.stringify({
+    q: "Hello!",
+    source: "en",
+    target: "es"
+  }),
+  headers: { "Content-Type": "application/json" }
+});
+
+console.log(await res.json());
+```
+
+Response:
+
+```javascript
+{
+    "translatedText": "¡Hola!"
+}
+```
+
+### Auto Detect Language
+
+Request:
+
+```javascript
+const res = await fetch("https://libretranslate.com/translate", {
+  method: "POST",
+  body: JSON.stringify({
+    q: "Ciao!",
+    source: "auto",
+    target: "en"
+  }),
+  headers: { "Content-Type": "application/json" }
+});
+
+console.log(await res.json());
+```
+
+Response:
+
+```javascript
+{
+    "detectedLanguage": {
+        "confidence": 83,
+        "language": "it"
+    },
+    "translatedText": "Bye!"
+}
+```
+
+### HTML (beta)
+
+Request:
+
+```javascript
+const res = await fetch("https://libretranslate.com/translate", {
+  method: "POST",
+  body: JSON.stringify({
+    q: '<p class="green">Hello!</p>',
+    source: "en",
+    target: "es",
+    format: "html"
+  }),
+  headers: { "Content-Type": "application/json" }
+});
+
+console.log(await res.json());
+```
+
+Response:
+
+```javascript
+{
+    "translatedText": "<p class=\"green\">¡Hola!</p>"
+}
+```
+
+
 # Credit
 
 This translation API was only made possible through the LibreTranslate project. Please support their efforts [here](https://github.com/LibreTranslate/LibreTranslate).
