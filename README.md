@@ -100,8 +100,9 @@ Response:
     "translatedText": "<p class=\"green\">¡Hola!</p>"
 }
 ```
+## Supported Languages
+English, Arabic, Azerbaijani, Catalan, Chinese, Czech, Danish, Dutch, Esperanto, Finnish, French, German, Greek, Hebrew, Hindi, Hungarian, Indonesian, Irish, Italian, Japanese, Korean, Persian, Polish, Portuguese, Russian, Slovak, Spanish, Swedish, Turkish, Ukranian
 
-
-# Credit
+## Credit
 
 This translation API was only made possible through the LibreTranslate project. Please support their efforts [here](https://github.com/LibreTranslate/LibreTranslate).
