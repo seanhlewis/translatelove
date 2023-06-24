@@ -12,6 +12,10 @@
 
 </div>
 
+<div align="center">
+<img src="https://github.com/seanhlewis/seanhlewis/assets/96705270/6431249f-69f6-4de1-94d7-3ff50e500b74" width="800" />
+</div>
+
 # Credit
 
 This translation API was only made possible through the LibreTranslate project. Please support their efforts [here](https://github.com/LibreTranslate/LibreTranslate).
