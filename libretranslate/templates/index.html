@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="{{ current_locale }}">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	{% for al in alternate_locales %}<link rel="alternate" hreflang="{{ al.lang }}" href="{{ al.link }}" />
+	{% endfor %}
+	{% if web_version %}
+	<title>translate.love - {{ _h("Free and Open Source Machine Translation API") }}</title>
+	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+	<meta name="description" content="{{ _h('Free and Open Source Machine Translation API. Self-hosted, offline capable and easy to setup. Run your own API server in just a few minutes.') }}">
+	<meta name="keywords" content="{{ _h('translation') }},{{ _h('api') }}">
+	{% endif %}
+	
+	<link rel="preload" href="{{ url_for('static', filename='icon.svg') }}" as="image" />
+	<link rel="preload" href="{{ url_for('static', filename='js/vue@2.js') }}" as="script">
+	<link rel="preload" href="{{ url_for('static', filename='js/materialize.min.js') }}" as="script">
+	<link rel="preload" href="{{ url_for('static', filename='js/prism.min.js') }}" as="script">
+	<link rel="preload" href="js/app.js?v={{ version }}" as="script">
+
+	<link rel="preload" href="{{ url_for('static', filename='css/materialize.min.css') }}" as="style"/>
+	<link rel="preload" href="{{ url_for('static', filename='css/material-icons.css') }}" as="style"/>
+	<link rel="preload" href="{{ url_for('static', filename='css/prism.min.css') }}" as="style"/>
+	<link rel="preload" href="{{ url_for('static', filename='css/main.css') }}?v={{ version }}" as="style"/>
+	<link rel="preload" href="{{ url_for('static', filename='css/dark-theme.css') }}" as="style"/>
+	
+	<meta property="og:title" content="translate.love - {{ _h('Free and Open Source Machine Translation API') }}" />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://translate.love" />
+	<meta property="og:image" content="https://github.com/seanhlewis/seanhlewis/assets/96705270/6431249f-69f6-4de1-94d7-3ff50e500b74" />
+	<meta property="og:description" name="description" class="swiftype" content="{{ _h('Free and Open Source Machine Translation API. Translate.love provides free translation services that can be used in any application.') }}"/>
+
+	<!--add the twitter image to be the github-->
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:site" content="@seanhlewis">
+	<meta name="twitter:creator" content="@seanhlewis">
+	<meta name="twitter:title" content="translate.love - {{ _h('Free and Open Source Machine Translation API') }}">
+	<meta name="twitter:description" content="{{ _h('Free and Open Source Machine Translation API. Translate.love provides free translation services that can be used in any application.') }}">
+	<meta name="twitter:image" content="https://github.com/seanhlewis/seanhlewis/assets/96705270/6431249f-69f6-4de1-94d7-3ff50e500b74">
+
+	<script src="{{ url_for('static', filename='js/vue@2.js') }}"></script>
+
+	<!-- Compiled and minified CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/materialize.min.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/material-icons.css') }}" />
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/prism.min.css') }}" />
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}?v={{ version }}" />
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/dark-theme.css') }}" />	
+</head>
+
+<body class="white" style="
+background-color: ghostwhite !important;
+">
+	<header>
+		<nav class="blue darken-3" role="navigation">
+			<div class="nav-wrapper container">
+				<button data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></button>
+				<a id="logo-container" href="/" class="brand-logo">
+					<svg width="33pt" height="33pt" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" style="margin-top: 10px;">
+						<g id="#ffffffff" style="
+						">
+						<path fill="#ffffff" opacity="1.00" d=" M 132.69 36.70 C 138.52 30.55 149.48 30.49 155.28 36.72 C 158.25 39.65 160.14 43.70 159.97 47.92 C 160.07 63.94 159.94 79.96 160.03 95.98 C 186.37 96.04 212.72 95.97 239.06 96.01 C 243.29 95.98 247.70 97.16 250.76 100.22 C 255.32 104.19 256.95 110.86 255.39 116.61 C 253.51 122.48 248.14 127.26 241.89 127.80 C 234.38 128.42 226.82 127.56 219.30 128.24 C 209.01 160.47 193.06 190.79 173.00 218.00 C 170.57 221.37 167.81 224.49 165.51 227.96 C 179.95 243.52 196.65 256.90 214.23 268.75 C 225.94 276.44 238.02 283.57 249.72 291.28 C 257.89 296.95 257.99 310.20 250.27 316.28 C 245.17 320.91 237.14 321.08 231.41 317.53 C 212.74 305.72 193.44 294.76 176.30 280.73 C 164.79 271.87 154.40 261.70 144.00 251.61 C 131.83 263.63 119.32 275.35 105.56 285.55 C 90.43 297.13 73.86 306.61 57.81 316.82 C 53.43 319.74 47.74 320.94 42.68 319.20 C 36.53 316.91 31.70 310.72 32.00 304.00 C 31.77 298.81 34.62 293.78 38.86 290.88 C 56.43 279.50 74.72 269.14 91.29 256.27 C 102.27 247.57 113.09 238.50 122.48 228.06 C 98.98 198.23 80.23 164.50 68.65 128.27 C 60.89 127.46 53.05 128.57 45.30 127.69 C 36.82 126.56 30.60 117.66 32.27 109.30 C 33.31 101.79 40.39 95.90 47.94 96.05 C 74.62 95.91 101.30 96.07 127.98 95.97 C 128.05 80.29 127.97 64.61 128.00 48.93 C 127.97 44.47 129.36 39.82 132.69 36.70 M 102.20 128.08 C 112.52 154.98 126.05 180.87 144.00 203.48 C 161.95 180.87 175.47 154.98 185.80 128.09 C 157.94 127.94 130.07 127.95 102.20 128.08 Z"></path>
+						<path fill="#ffffff" opacity="1.00" d=" M 337.40 201.36 C 340.89 192.90 352.16 189.19 359.96 194.01 C 364.70 196.48 366.88 201.59 368.78 206.27 C 404.46 287.91 440.22 369.51 475.88 451.15 C 477.55 455.32 480.25 459.32 480.01 464.00 C 480.32 471.21 474.78 477.94 467.86 479.59 C 463.41 480.47 458.51 479.97 454.78 477.23 C 451.18 474.99 449.25 471.09 447.69 467.31 C 438.10 444.93 428.12 422.72 418.65 400.29 C 414.78 399.79 410.88 400.02 407.00 400.00 C 375.67 400.00 344.33 400.00 313.00 400.00 C 303.78 400.19 294.54 399.60 285.35 400.30 C 276.74 420.60 267.65 440.70 258.89 460.94 C 256.94 464.99 255.57 469.34 253.15 473.15 C 249.55 478.60 242.39 480.94 236.13 479.63 C 226.98 477.56 221.43 466.66 225.09 458.03 C 262.54 372.48 299.92 286.90 337.40 201.36 M 351.39 249.34 C 340.07 275.35 328.67 301.33 317.31 327.32 C 311.54 340.88 305.20 354.23 299.81 367.93 C 334.60 368.04 369.40 368.05 404.19 367.93 C 403.75 366.65 403.32 365.38 402.83 364.13 C 386.05 325.88 369.31 287.62 352.61 249.34 C 352.31 249.34 351.69 249.34 351.39 249.34 Z"></path>
+						</g>
+					</svg>
+					<span style="position: absolute;left: 60px;">translate.love</span>
+				</a>
+				<ul id="nav" class="right hide-on-med-and-down top-nav position-relative">
+					{% set menulinks %}
+					<li><a href="{{ swagger_url }}" target="_blank">{{ _h("API Docs") }}</a></li>
+					<li><a href="https://github.com/seanhlewis/translatelove" rel="noopener noreferrer" target="_blank">{{ _h("GitHub") }}</a></li>
+					<li class="change-language"><a class="noline" href="javascript:void(0)" title="{{ _h('Change language') }}"><i class="material-icons">language</i></a>
+					</li>
+					<li class="locale-panel blue darken-3">
+						<select id="locales" onchange="changeLocale(this)" style="
+						background: ghostwhite;
+						color: black;
+						margin-top: 15px;
+					">
+							{% for l in available_locales %}<option value="{{ l['code'] }}" {{ 'selected' if current_locale == l['code'] else ''}}>{{ l['name'] }}</option>{% endfor %}
+						</select>
+					</li>
+					{% endset %}
+					{{ menulinks }}
+				</ul>
+				<ul id="nav-mobile" class="sidenav blue darken-3">
+					{{ menulinks }}
+				</ul>
+				<script>
+					var localeLinks = {
+						{% for al in alternate_locales %}"{{ al.lang }}": "{{ al.link }}"{% if not loop.last %},{% endif %}
+						{% endfor %}
+					};
+	
+					function changeLocale(slt){
+						var lang = slt.value;
+						if (localeLinks[lang]) location.href = localeLinks[lang];
+						else location.href = '?lang=' + slt.value;
+					}
+	
+					var btnChangeLangs = document.getElementsByClassName("change-language");
+					var localePanels = document.getElementsByClassName("locale-panel");
+
+					for (var i = 0; i < btnChangeLangs.length; i++){
+						(function(btn){
+							btn.addEventListener('click', function(e){
+								e.stopPropagation();
+								btn.classList.toggle('clicked');
+							});
+						})(btnChangeLangs[i]);
+					}
+					for (var i = 0; i < localePanels.length; i++){
+						localePanels[i].addEventListener('click', function(e){
+							e.stopPropagation();
+						});
+					}
+					document.addEventListener('click', function(){
+						for (var i = 0; i < btnChangeLangs.length; i++){
+							btnChangeLangs[i].classList.remove('clicked');
+						}
+					});
+				</script>
+			</div>
+		</nav>
+	</header>
+
+	<main id="app">
+	<div class="section no-pad-bot center" v-if="loading">
+		<div class="container">
+			<div class="row">
+				<div class="preloader-wrapper active">
+				<div class="spinner-layer spinner-blue-only">
+					<div class="circle-clipper left">
+					<div class="circle"></div>
+					</div><div class="gap-patch">
+					<div class="circle"></div>
+					</div><div class="circle-clipper right">
+					<div class="circle"></div>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div v-else-if="error">
+		<div class="section no-pad-bot">
+			<div class="container">
+				<div class="row">
+					<div class="col s12 m7">
+					<div class="card horizontal">
+						<div class="card-stacked">
+						<div class="card-content">
+							<i class="material-icons">warning</i><p> [[ error ]]</p>
+						</div>
+						<div class="card-action">
+							<a href="#" @click="dismissError">{{ _h("Dismiss") }}</a>
+						</div>
+						</div>
+					</div>
+					</div>
+					</div>
+			</div>
+		</div>
+	</div>
+
+	<div v-else>	
+		<div class="section no-pad-bot" style="background-color: ghostwhite;">
+			<div class="container">
+				<div class="row center">
+					<div class="col s12 m12" style="margin-top: 50px; margin-bottom: -50px;">
+						<h3 class="header" style="color: #E74C3C; font-weight: bold;">
+							{{ _h("TRANSLATE.LOVE") }}
+						</h3>
+						<h4 class="header" style="color: black;">
+							{{ _h("Free and Open Source Machine Translation API") }}
+						</h4>
+						<div id="download-btn-wrapper">
+							<svg
+								width="100px"
+								height="100px"
+								viewBox="0 0 24 24"
+								xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+								xmlns="http://www.w3.org/2000/svg"
+								version="1.1"
+								xmlns:cc="http://creativecommons.org/ns#"
+								xmlns:dc="http://purl.org/dc/elements/1.1/"
+								style="margin-bottom: -50px;">
+								<g transform="translate(0 -1028.4)">
+									<path
+										d="m7 1031.4c-1.5355 0-3.0784 0.5-4.25 1.7-2.3431 2.4-2.2788 6.1 0 8.5l9.25 9.8 9.25-9.8c2.279-2.4 2.343-6.1 0-8.5-2.343-2.3-6.157-2.3-8.5 0l-0.75 0.8-0.75-0.8c-1.172-1.2-2.7145-1.7-4.25-1.7z"
+										fill="#e74c3c">
+									</path>
+								</g>
+							</svg>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="section no-pad-bot" style="background-color: ghostwhite;">
+			<div class="container">
+				<div class="row">
+					<h3 class="header center" style="visibility:hidden;">{{ _h("Translation API") }}</h3>
+					<div id="translation-type-btns" class="s12 center" v-if="filesTranslation === true">
+						<button type="button" class="btn btn-switch-type" @click="switchType('text')" :class="{'active': translationType === 'text'}" style="
+						background-color: indianred !important;
+					">
+							<i aria-hidden="true" class="material-icons" style="
+							color: white;
+						">title</i>
+							<span class="btn-text" style="
+							color: white;
+						">{{ _h("Translate Text") }}</span>
+						</button>
+						<button type="button" class="btn btn-switch-type" @click="switchType('files')" :class="{'active': translationType === 'files'}" style="
+						background-color: indianred !important;
+					">
+							<i aria-hidden="true" class="material-icons" style="
+							color: white;
+						">description</i>
+							<span class="btn-text" style="
+							color: white;
+						">{{ _h("Translate Files") }}</span>
+						</button>
+					</div>
+					<form id="translation-form" class="col s12">
+						<div class="row mb-0">
+							<div class="col s6 language-select">
+								<span id="sourceLangLabel" style="
+								color: black;
+							">{{ _h("Translate from") }}</span>
+								<span v-if="detectedLangText !== ''" style="
+								color: black;
+							">[[ detectedLangText ]]</span>
+								<select aria-labelledby="sourceLangLabel" class="browser-default" v-model="sourceLang" ref="sourceLangDropdown" @change="handleInput" style="
+								color: black;
+							">
+									<template v-for="option in langs">
+										<option :value="option.code">[[ option.name ]]</option>
+									</template>
+								</select>
+								<div style="
+    position: relative;
+"><svg width="20px" height="20px" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="position: absolute;left: -15px;top: -10px;pointer-events: none;">
+<rect width="48" height="48" fill="white" fill-opacity="0.01"></rect>
+<path d="M37 18L25 30L13 18" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg></div>
+							</div>
+
+							<div class="col s6 language-select">
+								<a href="javascript:void(0)" @click="swapLangs" class="btn-switch-language" aria-label="{{ _h('Swap source and target languages') }}">
+									<i class="material-icons" style="
+									color: black;
+								">swap_horiz</i>
+								</a>
+								<span id="targetLangLabel" style="
+								color: black;
+							">{{ _h("Translate into") }}</span>
+								<select aria-labelledby="targetLangLabel" class="browser-default" v-model="targetLang" ref="targetLangDropdown" @change="handleInput" style="
+								color: black;
+							">
+									<template v-for="option in targetLangs">
+										<option v-if="option.code !== 'auto'" :value="option.code">[[ option.name ]]</option>
+									</template>
+								</select>
+								<div style="
+    position: relative;
+"><svg width="20px" height="20px" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="position: absolute;left: -15px;top: -10px;pointer-events: none;">
+<rect width="48" height="48" fill="white" fill-opacity="0.01"></rect>
+<path d="M37 18L25 30L13 18" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg></div>
+							</div>
+						</div>
+
+						<div class="row" v-if="translationType === 'text'">
+							<div class="input-field textarea-container col s6">
+								<label for="textarea1" class="sr-only">
+									{{ _h("Text to translate") }}
+								</label>
+								<textarea id="textarea1" v-model="inputText" @input="handleInput" ref="inputTextarea" dir="auto"></textarea>
+								<button class="btn-delete-text" title="{{ _h('Delete text') }}" aria-label="{{ _h('Delete text') }}" aria-label="Delete text" @click="deleteText">
+									<i class="material-icons">close</i>
+								</button>
+								<div class="characters-limit-container" v-if="charactersLimit !== -1">
+									<label>[[ inputText.length ]] / [[ charactersLimit ]]</label>
+								</div>
+							</div>
+							<div class="input-field textarea-container col s6">
+								<label for="textarea2" class="sr-only">
+									{{ _h("Translated text") }}
+								</label>
+								<textarea id="textarea2" v-model="translatedText" ref="translatedTextarea" dir="auto" v-bind:readonly="suggestions && !isSuggesting"></textarea>
+									<div class="actions">
+										<button v-if="suggestions && !loadingTranslation && inputText.length && !isSuggesting" class="btn-action" @click="suggestTranslation" aria-label="{{ _h('Suggest translation') }}">
+											<i class="material-icons">edit</i>
+										</button>
+										<button v-if="suggestions && !loadingTranslation && inputText.length && isSuggesting" class="btn-action btn-blue" @click="closeSuggestTranslation">
+											<span>{{ _h("Cancel") }}</span>
+										</button>
+										<button v-if="suggestions && !loadingTranslation && inputText.length && isSuggesting" :disabled="!canSendSuggestion" class="btn-action btn-blue" @click="sendSuggestion">
+											<span>{{ _h("Send") }}</span>
+										</button>
+										<button v-if="!isSuggesting" class="btn-action btn-copy-translated" @click="copyText">
+											<span>[[ copyTextLabel ]]</span> <i class="material-icons" aria-hidden="true">content_copy</i>
+										</button>
+									</div>
+								<div class="position-relative">
+									<div class="progress translate" v-if="loadingTranslation">
+										<div class="indeterminate"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row" v-if="translationType === 'files'">
+							<div class="file-dropzone">
+								<div v-if="inputFile === false" class="dropzone-content">
+									<span>{{ _h("Supported file formats:") }} [[ supportedFilesFormatFormatted ]]</span>
+									<form action="#">
+										<div class="file-field input-field">
+											<div class="btn" style="background-color: indianred;">
+												<span id="fileLabel">{{ _h("File") }}</span>
+												<input aria-labelledby="fileLabel" type="file" :accept="supportedFilesFormatFormatted" @change="handleInputFile" ref="fileInputRef">
+											</div>
+											<div class="file-path-wrapper hidden">
+												<input class="file-path validate" type="text">
+											</div>
+										</div>
+									</form>
+								</div>
+								<div v-if="inputFile !== false" class="dropzone-content">
+									<div class="card">
+										<div class="card-content">
+											<div class="row mb-0">
+												<div class="col s12">
+													[[ inputFile.name ]]
+													<button v-if="loadingFileTranslation !== true" @click="removeFile" class="btn-flat" aria-label="{{ _h('Remove file') }}">
+														<i class="material-icons">close</i>
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									<button @click="translateFile" v-if="translatedFileUrl === false && loadingFileTranslation === false" class="btn">{{ _h("Translate") }}</button>
+									<a v-if="translatedFileUrl !== false" :href="translatedFileUrl" class="btn">{{ _h("Download") }}</a>
+									<div class="progress" v-if="loadingFileTranslation">
+										<div class="indeterminate"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="section no-pad-bot" style="background-color: ghostwhite;" v-if="translationType !== 'files'">
+			<div class="container">
+				<div class="row center">
+					<div class="col s12 m12">
+
+					<div class="row center">
+						<div class="col s12 m12 l6 left-align">
+							<p class="mb-0" style="
+							color: black;
+						">{{ _h("Request") }}</p>
+							<pre class="code mt-0"><code class="language-javascript" v-html="$options.filters.highlight(requestCode)">
+							</code></pre>
+						</div>
+						<div class="col s12 m12 l6 left-align">
+							<p class="mb-0" style="
+							color: black;
+						">{{ _h("Response") }}</p>
+							<pre class="code mt-0" style="
+							min-height: 314.92px;
+						"><code class="language-javascript" v-html="$options.filters.highlight(output)">
+							</code></pre>
+						</div>
+					</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	</main>
+
+	<footer class="page-footer blue darken-3">
+		<div class="container">
+			<div class="row">
+				<div class="col l12 s12">
+					<h5 class="white-text">{{ _h("translate.love") }}</h5>
+					<p class="grey-text text-lighten-4">{{ _h("Free and Open Source Machine Translation API") }}</p>
+					<p>{{ _h("License:") }} <a class="grey-text text-lighten-4" href="https://www.gnu.org/licenses/agpl-3.0.en.html" rel="noopener noreferrer">AGPLv3</a></p>
+					<p>
+						{{ _h("This public API may be used for testing, personal, and production applications and is made possible by %(donations)s.", donations='<a href="https://github.com/sponsors/seanhlewis" class="grey-text text-lighten-4" rel="noopener noreferrer">donations</a>') }}
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="footer-copyright center">
+			<p class="white-text">
+				{{ _h("Made with %(heart)s by %(contributors)s and powered by %(engine)s", heart='❤', contributors='<a class="white-text" href="https://github.com/seanhlewis" rel="noopener noreferrer">%s</a>' % _h("Sean Henry Lewis"), engine='<a class="white-text text-lighten-3" href="https://github.com/LibreTranslate/LibreTranslate" rel="noopener noreferrer">LibreTranslate</a>') }}
+			</p>
+		</div>
+	</footer>
+
+	<script src="{{ url_for('static', filename='js/materialize.min.js') }}"></script>
+	<script>
+	// @license magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt AGPL-3.0
+	window.Prism = window.Prism || {};
+	window.Prism.manual = true;
+	// @license-end
+	</script>
+	<script src="{{ url_for('static', filename='js/prism.min.js') }}"></script>
+	<script src="js/app.js?v={{ version }}"></script>
+</body>
+</html>
