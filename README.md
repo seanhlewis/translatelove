@@ -23,7 +23,7 @@
 Request:
 
 ```javascript
-const res = await fetch("https://libretranslate.com/translate", {
+const res = await fetch("https://translate.love/translate", {
   method: "POST",
   body: JSON.stringify({
     q: "Hello!",
@@ -49,7 +49,7 @@ Response:
 Request:
 
 ```javascript
-const res = await fetch("https://libretranslate.com/translate", {
+const res = await fetch("https://translate.love/translate", {
   method: "POST",
   body: JSON.stringify({
     q: "Ciao!",
@@ -79,7 +79,7 @@ Response:
 Request:
 
 ```javascript
-const res = await fetch("https://libretranslate.com/translate", {
+const res = await fetch("https://translate.love/translate", {
   method: "POST",
   body: JSON.stringify({
     q: '<p class="green">Hello!</p>',
